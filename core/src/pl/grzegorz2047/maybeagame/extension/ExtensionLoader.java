@@ -1,9 +1,10 @@
 package pl.grzegorz2047.maybeagame.extension;
 
+import pl.grzegorz2047.maybeagame.GameRoot;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,7 +14,6 @@ import java.net.URLClassLoader;
 import java.util.Scanner;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -26,6 +26,11 @@ public class ExtensionLoader {
         File extensionsDirectory = createExtensionsFileIfNotExists();
         File[] jars = extensionsDirectory.listFiles();
         if (isExtensionsDirectoryEmpty(jars)) return false;
+        searchTroughFilesAndLoadExntensions(jars);
+        return true;
+    }
+
+    private void searchTroughFilesAndLoadExntensions(File[] jars) {
         for (File jar : jars) {
             if (!hasJarExtension(jar)) continue;
             try {
@@ -36,44 +41,54 @@ public class ExtensionLoader {
                 e.printStackTrace();
             }
         }
-        return true;
     }
 
     private void getContentOfJarAndLoadIt(File jar, ZipInputStream zip, JarFile jarFile) throws IOException {
         for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-            if (isItExtentionSettingFile(entry)) {
-                Scanner scanner = new Scanner(jarFile.getInputStream(entry));
-                if(!scanner.hasNextLine()){
-                    Logger.getLogger("MaybeAGame").log(Level.SEVERE, "Jar file named " + jar.getName() + " doesnt have extension.info");
-                    break;
-                }
-                String line = scanner.nextLine();
-                String[] partsOfLine = line.split(":");
-                String classPath = "";
-                if(partsOfLine.length == 2){
-                    if(partsOfLine[0].equals("main")){
-                        classPath = partsOfLine[1];
-                    }
-                }else {
-                    break;
-                }
-                System.out.println("Znalazlem plik!");
-                URL url = jar.toURI().toURL();
-
-                Class[] parameters = new Class[]{URL.class};
-
-                URLClassLoader sysLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-                Class<URLClassLoader> sysClass = URLClassLoader.class;
-                try {
-                    Extension instance = getInstanceOfExtension(classPath, url, parameters, sysLoader, sysClass);
-                    instance.onEnable();
-                } catch (Exception ex) {
-                    System.err.println("Nie udalo sie wczytac " + jar.getName() + "! Sprawdz poprawnosc sciezki main! " + ex.getMessage());
-                    break;
-                }
+            if (!isItExtentionSettingFile(entry)) continue;
+            Scanner scanner = new Scanner(jarFile.getInputStream(entry));
+            if (!checkIfItsAnythingInExtensionSettings(scanner)){
+                GameRoot.LOGGER.log(Level.SEVERE, "Jar file named " + jar.getName() + " doesnt have anything in extension.info");
                 break;
             }
+            String line = scanner.nextLine();
+            String[] partsOfLine = line.split(":");
+            String classPath = "";
+            if (partsOfLine.length == 2) {
+                if (partsOfLine[0].equals("main")) {
+                    classPath = partsOfLine[1];
+                }else{
+                    GameRoot.LOGGER.log(Level.SEVERE, "Jar file named " + jar.getName() + " doesnt have main: in extension.info");
+                }
+            } else {
+                GameRoot.LOGGER.log(Level.SEVERE, "Jar file named " + jar.getName() + " has incorrect main: in extension.info");
+
+                break;
+            }
+            URL url = jar.toURI().toURL();
+
+            Class[] parameters = new Class[]{URL.class};
+
+            URLClassLoader sysLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
+            Class<URLClassLoader> sysClass = URLClassLoader.class;
+            try {
+                enableExtension(classPath, url, parameters, sysLoader, sysClass);
+            } catch (Exception ex) {
+                GameRoot.LOGGER.log(Level.SEVERE, "Cant load " + jar.getName() + "! Check if main: is defined correctly! " + ex.getMessage());
+                break;
+            }
+            break;
+
         }
+    }
+
+    private boolean checkIfItsAnythingInExtensionSettings(Scanner scanner) {
+        return scanner.hasNextLine();
+    }
+
+    private void enableExtension(String classPath, URL url, Class[] parameters, URLClassLoader sysLoader, Class<URLClassLoader> sysClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, InstantiationException {
+        Extension instance = getInstanceOfExtension(classPath, url, parameters, sysLoader, sysClass);
+        instance.onEnable();
     }
 
     private Extension getInstanceOfExtension(String classPath, URL url, Class[] parameters, URLClassLoader sysLoader, Class<URLClassLoader> sysClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, InstantiationException {

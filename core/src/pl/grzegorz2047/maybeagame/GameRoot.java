@@ -15,6 +15,7 @@ import pl.grzegorz2047.maybeagame.extension.ExtensionLoader;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class GameRoot extends ApplicationAdapter {
     private Environment environment;
@@ -22,6 +23,10 @@ public class GameRoot extends ApplicationAdapter {
     private CameraInputController camController;
     private ModelBatch modelBatch;
     private ArrayList<ModelInstance> blocks = new ArrayList<ModelInstance>();
+    public static final Logger LOGGER = Logger.getLogger(GameRoot.class.getName());
+
+    public GameRoot() {
+    }
 
     @Override
     public void create() {
@@ -63,7 +68,7 @@ public class GameRoot extends ApplicationAdapter {
     }
 
     private float getYFromFunction(int x) {
-        int y = (2*x) + 1;
+        int y = (2 * x) + 1;
         return y;
     }
 
@@ -86,7 +91,7 @@ public class GameRoot extends ApplicationAdapter {
     @Override
     public void dispose() {
         modelBatch.dispose();
-        for(ModelInstance mi : blocks){
+        for (ModelInstance mi : blocks) {
             mi.model.dispose();
         }
         blocks.clear();
