@@ -74,7 +74,8 @@ public class ExtensionLoader {
             try {
                 enableExtension(classPath, url, parameters, sysLoader, sysClass);
             } catch (Exception ex) {
-                GameRoot.LOGGER.log(Level.SEVERE, "Cant load " + jar.getName() + "! Check if main: is defined correctly! " + ex.getMessage());
+                GameRoot.LOGGER.log(Level.SEVERE, "Cant load " + jar.getName() + "! Check if main: is defined correctly! ");
+                ex.printStackTrace();
                 break;
             }
             break;

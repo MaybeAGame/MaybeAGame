@@ -48,7 +48,6 @@ public class GameRoot extends ApplicationAdapter {
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(new PlayerInputProcessor(p));
         Gdx.input.setInputProcessor(im);
-
     }
 
     private void initExtensions() {
