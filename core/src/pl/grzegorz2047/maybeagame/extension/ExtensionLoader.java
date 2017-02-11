@@ -26,11 +26,11 @@ public class ExtensionLoader {
         File extensionsDirectory = createExtensionsFileIfNotExists();
         File[] jars = extensionsDirectory.listFiles();
         if (isExtensionsDirectoryEmpty(jars)) return false;
-        searchTroughFilesAndLoadExntensions(jars);
+        searchThroughFilesAndLoadExtensions(jars);
         return true;
     }
 
-    private void searchTroughFilesAndLoadExntensions(File[] jars) {
+    private void searchThroughFilesAndLoadExtensions(File[] jars) {
         for (File jar : jars) {
             if (!hasJarExtension(jar)) continue;
             try {
