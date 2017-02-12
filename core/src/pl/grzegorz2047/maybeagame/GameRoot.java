@@ -3,6 +3,7 @@ package pl.grzegorz2047.maybeagame;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -29,7 +30,7 @@ public class GameRoot extends ApplicationAdapter {
     private ArrayList<ModelInstance> blocks = new ArrayList<ModelInstance>();
     public static final Logger LOGGER = Logger.getLogger(GameRoot.class.getName());
     private Player p;
-    private Sound sound;
+    private Music sound;
 
     public GameRoot() {
     }
@@ -46,9 +47,8 @@ public class GameRoot extends ApplicationAdapter {
         //camController = new CameraInputController(cam);
         //Gdx.input.setInputProcessor(camController);
 
-        sound = Gdx.audio.newSound(Gdx.files.internal("theme.mp3"));
-        sound.setLooping(1, true);
-        sound.setPitch(1, 1.5f);
+        sound = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3"));
+        sound.setLooping(true);
         sound.play();
     }
 
