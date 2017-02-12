@@ -20,12 +20,4 @@ public abstract class Event {
         return listeners;
     }
 
-    public static void addListener(Listener listener) {
-        System.out.println("prawie dodaje event!");
-        if (!listeners.contains(listener)) {
-            System.out.println("Dodaje event!");
-            listeners.add(listener);
-        }
-    }
-
 }

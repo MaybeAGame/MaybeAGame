@@ -17,13 +17,7 @@ public class EventManager {
 
     public static void callEvent(Event e) {
         String className = e.getClass().getName();
-        Event stored = events.get(e.getClass().getName());
         System.out.println("Wywoluje probe event dla " + className);
-        if (stored == null) {
-            events.put(className, e);
-        }
-
-
         try {
             Class<?> aClass = Class.forName(className);
             Field f = aClass.getField("listeners");

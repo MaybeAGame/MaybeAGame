@@ -18,7 +18,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * Taki tam test wczytywania prostych rozszerzeń
+ * It IS working somehow extension loader
  */
 public class ExtensionLoader {
 
@@ -79,7 +79,6 @@ public class ExtensionLoader {
                 break;
             }
             break;
-
         }
     }
 

@@ -3,6 +3,7 @@ package pl.grzegorz2047.maybeagame;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -15,6 +16,7 @@ import pl.grzegorz2047.maybeagame.extension.ExtensionLoader;
 import pl.grzegorz2047.maybeagame.input.PlayerInputProcessor;
 import pl.grzegorz2047.maybeagame.player.Player;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -27,6 +29,7 @@ public class GameRoot extends ApplicationAdapter {
     private ArrayList<ModelInstance> blocks = new ArrayList<ModelInstance>();
     public static final Logger LOGGER = Logger.getLogger(GameRoot.class.getName());
     private Player p;
+    private Sound sound;
 
     public GameRoot() {
     }
@@ -42,6 +45,11 @@ public class GameRoot extends ApplicationAdapter {
         initInputProcessors();
         //camController = new CameraInputController(cam);
         //Gdx.input.setInputProcessor(camController);
+
+        sound = Gdx.audio.newSound(Gdx.files.internal("theme.mp3"));
+        sound.setLooping(1, true);
+        sound.setPitch(1, 1.5f);
+        sound.play();
     }
 
     private void initInputProcessors() {
