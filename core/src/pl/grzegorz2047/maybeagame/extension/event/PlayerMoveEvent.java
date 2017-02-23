@@ -7,13 +7,24 @@ import pl.grzegorz2047.maybeagame.Location;
  */
 public class PlayerMoveEvent extends Event {
 
-    private Location location;
+    private Location oldLocation;
+    private Location newLocation;
 
-    public PlayerMoveEvent(float x, float y, float z) {
-        location = new Location(x, y, z);
+    public PlayerMoveEvent(Location oldLocation, Location newLocation) {
+        this.oldLocation = oldLocation;
+        this.newLocation = newLocation;
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getFrom() {
+        return oldLocation;
     }
+
+    public Location getTo() {
+        return newLocation;
+    }
+
+    public void setTo(Location newLocation) {
+        this.newLocation = newLocation;
+    }
+
 }

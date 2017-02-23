@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import pl.grzegorz2047.maybeagame.Direction;
 import pl.grzegorz2047.maybeagame.GameRoot;
 import pl.grzegorz2047.maybeagame.Location;
 import pl.grzegorz2047.maybeagame.extension.event.EventManager;
@@ -23,29 +24,23 @@ public class Player {
     private final String name;
     private boolean leftMove;
     private boolean rightMove;
-    private int i = 0;
     private ModelInstance mi;
     private Location location;
     private boolean moving = false;
+    private PlayerMovement movement;
 
     public Player(String name) {
         this.name = name;
         location = new Location(0, 2, 0);
         createPlayerBody();
+        movement = new PlayerMovement();
     }
 
     public void update() {
         moving = false;
-        if (leftMove) {
-            location.setX(location.getX() - (5 * Gdx.graphics.getDeltaTime()));
-            moving = true;
-        }
-        if (rightMove) {
-            location.setX(location.getX() + (5 * Gdx.graphics.getDeltaTime()));
-            moving = true;
-        }
+        Location newLocation = movement.calculatePlayerLocation(location, Direction.EAST);
         if (moving) {
-            PlayerMoveEvent event = new PlayerMoveEvent(location.getX(), location.getY(), location.getZ());
+            PlayerMoveEvent event = new PlayerMoveEvent(location, newLocation);
             EventManager.callEvent(event);
             mi.transform.setTranslation(location.toVector());
         }

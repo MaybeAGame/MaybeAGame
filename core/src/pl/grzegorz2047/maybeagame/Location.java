@@ -13,6 +13,10 @@ public class Location {
         vector = new Vector3(x, y, z);
     }
 
+    public Location(Location location) {
+        this.vector = location.toVector();
+    }
+
     public float getX() {
         return vector.x;
     }
