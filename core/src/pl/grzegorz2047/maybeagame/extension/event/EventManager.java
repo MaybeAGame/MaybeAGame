@@ -17,19 +17,19 @@ public class EventManager {
 
     public static void callEvent(Event e) {
         String className = e.getClass().getName();
-        System.out.println("Wywoluje probe event dla " + className);
+      //  System.out.println("Wywoluje probe event dla " + className);
         try {
             Class<?> aClass = Class.forName(className);
             Field f = aClass.getField("listeners");
             Class<?> t = f.getType();
-            System.out.println("Probuj!");
+         //   System.out.println("Probuj!");
             if (t == ArrayList.class) {
-                System.out.print("ArrayList ma ten event " + className);
+                //System.out.print("ArrayList ma ten event " + className);
                 ArrayList<Listener> listeners = (ArrayList<Listener>) f.get(null);
                 for (Listener l : listeners) {
-                    System.out.println("Notikowany jest " + l.getClass().getName());
+                  // System.out.println("Notikowany jest " + l.getClass().getName());
                     l.notify(e);
-                    System.out.println("Notyfikuje!");
+                   // System.out.println("Notyfikuje!");
                 }
             }
         } catch (IllegalAccessException e1) {
@@ -49,13 +49,13 @@ public class EventManager {
             Field f = aClass.getField("listeners");
             Class<?> t = f.getType();
             if (t == ArrayList.class) {
-                System.out.print("ArrayList ma ten event " + className);
+          //      System.out.print("ArrayList ma ten event " + className);
                 ArrayList<Listener> listeners = (ArrayList<Listener>) f.get(null);
                 listeners.add(listener);
-                System.out.print("Event move ma " +
-                        PlayerMoveEvent.listeners.size());
+          //      System.out.print("Event move ma " +
+           //             PlayerMoveEvent.listeners.size());
             } else {
-                System.out.print("DWADAWDAWDA");
+          //      System.out.print("DWADAWDAWDA");
             }
         } catch (IllegalAccessException e1) {
             e1.printStackTrace();

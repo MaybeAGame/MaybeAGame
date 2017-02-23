@@ -1,8 +1,8 @@
 package pl.grzegorz2047.maybeagame.input;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import pl.grzegorz2047.maybeagame.Direction;
 import pl.grzegorz2047.maybeagame.GameRoot;
 import pl.grzegorz2047.maybeagame.player.Player;
 
@@ -15,7 +15,7 @@ public class PlayerInputProcessor extends InputAdapter {
 
     private final Player p;
 
-    public PlayerInputProcessor(Player p){
+    public PlayerInputProcessor(Player p) {
         this.p = p;
     }
 
@@ -34,13 +34,23 @@ public class PlayerInputProcessor extends InputAdapter {
         return true;
     }
 
-    private void setMoveValue(int keycode, boolean leftMove) {
+    private void setMoveValue(int keycode, boolean moving) {
         switch (keycode) {
             case Keys.LEFT:
-                p.setLeftMove(leftMove);
+                System.out.println("Keycode left");
+                p.setPlayerDirection(Direction.WEST, moving);
                 break;
             case Keys.RIGHT:
-                p.setRightMove(leftMove);
+                System.out.println("Keycode right");
+                p.setPlayerDirection(Direction.EAST, moving);
+                break;
+            case Keys.UP:
+                System.out.println("Keycode up");
+                p.setPlayerDirection(Direction.NORTH, moving);
+                break;
+            case Keys.DOWN:
+                System.out.println("Keycode down");
+                p.setPlayerDirection(Direction.SOUTH, moving);
                 break;
         }
     }
