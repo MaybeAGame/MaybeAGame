@@ -10,9 +10,7 @@ buildscript {
 }
 task myjar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'Gradle Jar File Example',
-                'Implementation-Version': version,
-                'Main-Class': 'pl.grzegorz2047.maybeagame.GameRoot'
+        attributes 'Main-Class': 'pl.grzegorz2047.maybeagame.GameRoot'
     }
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

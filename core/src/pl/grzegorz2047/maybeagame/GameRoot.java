@@ -47,9 +47,10 @@ public class GameRoot extends ApplicationAdapter {
         //camController = new CameraInputController(cam);
         //Gdx.input.setInputProcessor(camController);
 
-        sound = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3"));
-        sound.setLooping(true);
-        sound.play();
+        //sound = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3"));
+        //sound.setLooping(true);
+        //sound.play();
+        System.out.println(Gdx.net.openURI("http://google.pl") + " ddd");
     }
 
     private void initInputProcessors() {
