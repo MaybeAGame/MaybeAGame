@@ -1,6 +1,3 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-
 buildscript {
     repositories {
         mavenLocal()
@@ -10,14 +7,6 @@ buildscript {
     }
     dependencies {
     }
-}
-task myjar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': 'pl.grzegorz2047.maybeagame.GameRoot'
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
 }
 
 allprojects {
