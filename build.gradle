@@ -34,7 +34,7 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
-
+    baseName = 'MaybeAGame'
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
