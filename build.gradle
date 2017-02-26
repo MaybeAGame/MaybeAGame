@@ -12,7 +12,9 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: 'application'
 
+    mainClassName = 'pl.grzegorz2047.maybeagame.GameRoot'
     version = '1.0'
     ext {
         appName = "MaybeAGame"
