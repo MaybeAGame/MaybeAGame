@@ -5,6 +5,7 @@ package pl.grzegorz2047.maybeagame.extension.event;
  */
 public interface Listener<T extends Event> {
 
-    void notify(T event);
+
+    void  notify(T event);
 
 }
